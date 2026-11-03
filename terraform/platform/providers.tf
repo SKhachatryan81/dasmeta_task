@@ -5,6 +5,7 @@ terraform {
     bucket = "dasmeta-test"
     prefix = "platform/gcp"
   }
+
   required_providers {
     helm = {
       source  = "hashicorp/helm"

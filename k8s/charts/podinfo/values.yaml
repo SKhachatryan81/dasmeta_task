@@ -8,3 +8,6 @@ namespace: dev
 image:
   repo: ghcr.io/stefanprodan/podinfo
   tag: "6.17.0"
+
+ingress:
+  host: 
