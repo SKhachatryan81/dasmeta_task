@@ -18,6 +18,17 @@ variable "nginx_service_annotations" {
   description = "Annotations for the controller's LoadBalancer Service (e.g. AWS NLB settings)"
 }
 variable "namespace" {
-  type = string
+  type    = string
   default = "dev"
+}
+variable "kube_prometheus_stack_chart_version" {
+  type = string
+}
+
+variable "loki_chart_version" {
+  type = string
+}
+
+variable "alloy_chart_version" {
+  type = string
 }
