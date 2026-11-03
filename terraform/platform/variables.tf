@@ -17,3 +17,7 @@ variable "nginx_service_annotations" {
   default     = {}
   description = "Annotations for the controller's LoadBalancer Service (e.g. AWS NLB settings)"
 }
+variable "namespace" {
+  type = string
+  default = "dev"
+}
