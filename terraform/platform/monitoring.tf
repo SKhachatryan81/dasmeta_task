@@ -15,6 +15,11 @@ resource "helm_release" "kube_prometheus_stack" {
     value = "grafana.${data.terraform_remote_state.infra.outputs.ingress_ip}.sslip.io"
   }]
 
+  set_sensitive = [{
+    name  = "alertmanager.config.global.slack_api_url"
+    value = var.slack_webhook_url
+  }]
+
   timeout    = 600
   depends_on = [helm_release.nginx_ingress]
 }

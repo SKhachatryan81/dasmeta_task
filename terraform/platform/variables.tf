@@ -32,3 +32,8 @@ variable "loki_chart_version" {
 variable "alloy_chart_version" {
   type = string
 }
+
+variable "slack_webhook_url" {
+  type      = string
+  sensitive = true
+}

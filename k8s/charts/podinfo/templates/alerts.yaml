@@ -1,0 +1,20 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: {{ .Release.Name }}-alerts
+spec:
+  groups:
+  - name: podinfo
+    rules:
+    - alert: PodinfoHighCPU
+      expr: sum by (namespace, pod) (rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}", container="{{ .Values.app.name }}"}[5m])) > {{ .Values.alerts.cpuCores }}
+      for: 5m
+      labels: { severity: warning }
+      annotations:
+        summary: "High CPU on {{`{{ $labels.pod }}`}}: {{`{{ $value | printf \"%.2f\" }}`}} cores"
+    - alert: PodinfoHighMemory
+      expr: sum by (namespace, pod) (container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}", container="{{ .Values.app.name }}"}) > {{ int .Values.alerts.memoryBytes }}
+      for: 5m
+      labels: { severity: warning }
+      annotations:
+        summary: "High memory on {{`{{ $labels.pod }}`}}: {{`{{ $value | humanize1024 }}`}}B"

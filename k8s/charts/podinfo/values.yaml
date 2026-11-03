@@ -8,3 +8,7 @@ namespace: dev
 image:
   repo: ghcr.io/stefanprodan/podinfo
   tag: "6.17.0"
+
+alerts:
+  cpuCores: 0.2
+  memoryBytes: 104857600

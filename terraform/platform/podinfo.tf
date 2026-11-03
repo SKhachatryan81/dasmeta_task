@@ -9,5 +9,5 @@ resource "helm_release" "podinfo" {
     value = "podinfo.${data.terraform_remote_state.infra.outputs.ingress_ip}.sslip.io"
   }]
 
-  depends_on = [helm_release.nginx_ingress]
+  depends_on = [helm_release.nginx_ingress, helm_release.kube_prometheus_stack]
 }

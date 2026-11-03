@@ -1,6 +1,22 @@
-# Not needed for this setup
 alertmanager:
-  enabled: false
+  enabled: true
+  fig:
+    route:
+      receiver: slack
+      group_by: [alertname, namespace]
+      group_wait: 30s       # wait to batch alerts that fire together
+      group_interval: 5m
+      repeat_interval: 4h   # re-send if still firing
+    receivers:
+    - name: "null"
+    - name: slack
+      slack_configs:
+      - channel: "#alerts"
+        send_resolved: true
+        title: '{{ .Status | toUpper }}: {{ .CommonLabels.alertname }}'
+        text: '{{ range .Alerts }}{{ .Annotations.summary }}{{ "\n" }}{{ end }}'
+
+# Not needed for this setup
 defaultRules:
   create: false
 
@@ -17,9 +33,9 @@ kubeProxy:
 prometheus:
   prometheusSpec:
     retention: 2d
-    # pick up ServiceMonitors/PodMonitors from any release, not only this one
     serviceMonitorSelectorNilUsesHelmValues: false
     podMonitorSelectorNilUsesHelmValues: false
+    ruleSelectorNilUsesHelmValues: false
     resources:
       requests:
         cpu: 100m
@@ -68,3 +84,21 @@ grafana:
       type: loki
       access: proxy
       url: http://loki.monitoring.svc.cluster.local:3100
+
+additionalPrometheusRulesMap:
+  node-alerts:
+    groups:
+    - name: nodes
+      rules:
+      - alert: NodeHighCPU
+        expr: 1 - avg by (instance) (rate(node_cpu_seconds_total{mode="idle"}[5m])) > 0.8
+        for: 10m
+        labels: { severity: warning }
+        annotations:
+          summary: 'High CPU on {{ $labels.instance }}: {{ $value | humanizePercentage }}'
+      - alert: NodeHighMemory
+        expr: 1 - node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes > 0.85
+        for: 10m
+        labels: { severity: warning }
+        annotations:
+          summary: 'High memory on {{ $labels.instance }}: {{ $value | humanizePercentage }}'
