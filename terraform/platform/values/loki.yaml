@@ -16,6 +16,11 @@ loki:
         index:
           prefix: loki_index_
           period: 24h
+  compactor:
+    retention_enabled: true
+    delete_request_store: filesystem    # required when retention is on
+  limits_config:
+    retention_period: 72h
 
 singleBinary:
   replicas: 1
