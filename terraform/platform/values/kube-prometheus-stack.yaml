@@ -74,10 +74,10 @@ grafana:
     # hosts set from Terraform: grafana.<ingress-ip>.sslip.io
   resources:
     requests:
-      cpu: 50m
-      memory: 128Mi
-    limits:
+      cpu: 100m
       memory: 256Mi
+    limits:
+      memory: 512Mi
   additionalDataSources:
     - name: Loki
       uid: loki
