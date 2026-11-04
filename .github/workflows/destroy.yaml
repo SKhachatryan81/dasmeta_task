@@ -41,7 +41,7 @@ jobs:
       - name: init
         run: terraform init -input=false
       - name: destroy
-        run: terraform destroy -auto-approve -input=false
+        run: terraform destroy -auto-approve -input=false  -var "kubeconfig_path=$KUBECONFIG"
       - name: delete leftover disks (PVCs)
         run: |
           kubectl delete pvc --all -n monitoring --ignore-not-found --wait=true --timeout=180s

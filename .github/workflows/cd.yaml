@@ -64,6 +64,6 @@ jobs:
       - name: init
         run: terraform init -input=false
       - name: plan
-        run: terraform plan -out=tfplan -input=false
+        run: terraform plan -out=tfplan -input=false  -var "kubeconfig_path=$KUBECONFIG"
       - name: apply
         run: terraform apply -input=false tfplan
