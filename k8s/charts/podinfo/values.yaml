@@ -3,6 +3,9 @@ app:
   port: 9898
   replicaCount: 2
 
+ingress:
+  host: podinfo.local
+
 namespace: dev
 
 image:

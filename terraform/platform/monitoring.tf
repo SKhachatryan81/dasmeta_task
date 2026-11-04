@@ -12,7 +12,7 @@ resource "helm_release" "kube_prometheus_stack" {
 
   set = [{
     name  = "grafana.ingress.hosts[0]"
-    value = "grafana.${data.terraform_remote_state.infra.outputs.ingress_ip}.sslip.io"
+    value = "grafana.${data.terraform_remote_state.infra.outputs.base_domain}"
   }]
 
   set_sensitive = [{

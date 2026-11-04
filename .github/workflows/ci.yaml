@@ -1,0 +1,44 @@
+name: CI
+on:
+  pull_request:
+  push: 
+    branches: [main]
+  workflow_dispatch:
+jobs:
+  terraform-fmt:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v5
+    - uses: hashicorp/setup-terraform@v3
+      with:
+          terraform_version: 1.15.6
+    - name: fmt
+      run: terraform fmt -check -recursive terraform/infra terraform/platform
+  
+  terraform-validate:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        dir: [terraform/infra, terraform/platform]
+    defaults:
+      run:
+        working-directory: ${{ matrix.dir }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.15.6
+      - name: validate
+        run: terraform init -backend=false -input=false && terraform validate
+  
+  helm:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v5
+    - uses: azure/setup-helm@v4
+    - name: lint
+      run: helm lint k8s/charts/*
+    - name: template
+      if: ${{ !cancelled() }}
+      run: helm template podinfo k8s/charts/podinfo

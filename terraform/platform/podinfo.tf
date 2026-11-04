@@ -6,7 +6,7 @@ resource "helm_release" "podinfo" {
 
   set = [{
     name  = "ingress.host"
-    value = "podinfo.${data.terraform_remote_state.infra.outputs.ingress_ip}.sslip.io"
+    value = "podinfo.${data.terraform_remote_state.infra.outputs.base_domain}"
   }]
 
   depends_on = [helm_release.nginx_ingress, helm_release.kube_prometheus_stack]

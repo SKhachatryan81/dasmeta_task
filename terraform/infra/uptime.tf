@@ -12,7 +12,7 @@ resource "google_monitoring_uptime_check_config" "podinfo" {
     type = "uptime_url"
     labels = {
       project_id = var.project_id
-      host       = "podinfo.${module.network.ingress_ip}.sslip.io"
+      host       = "podinfo.${local.base_domain}"
     }
   }
 }
