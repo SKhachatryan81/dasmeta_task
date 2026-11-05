@@ -1,0 +1,8 @@
+## dev
+podinfo-deployment-7b7d5cb77-grb9s   144m   28Mi   
+podinfo-deployment-7b7d5cb77-v9hfn   113m   31Mi   
+## ingress-nginx
+nginx-ingress-controller-6d7856b69b-krml9   132m   28Mi   
+## nodes
+gke-dasmeta-spot-pool-b0181c62-0h3r   1184m   125%   1578Mi   56%   
+gke-dasmeta-spot-pool-b0181c62-x8mx   622m    66%    1932Mi   69%   
