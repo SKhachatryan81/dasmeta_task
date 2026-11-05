@@ -1,6 +1,6 @@
 alertmanager:
   enabled: true
-  fig:
+  config:
     route:
       receiver: slack
       group_by: [alertname, namespace]

@@ -12,11 +12,6 @@ variable "nginx_chart_version" {
   description = "nginx/kubernetes-ingress Helm chart version (pin it)"
 }
 
-variable "nginx_service_annotations" {
-  type        = map(string)
-  default     = {}
-  description = "Annotations for the controller's LoadBalancer Service (e.g. AWS NLB settings)"
-}
 variable "namespace" {
   type    = string
   default = "dev"
