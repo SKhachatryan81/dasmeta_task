@@ -1,3 +1,4 @@
+# alertmanager config
 alertmanager:
   enabled: true
   config:
@@ -67,6 +68,7 @@ prometheus-node-exporter:
     limits:
       memory: 64Mi
 
+# grafana
 grafana:
   ingress:
     enabled: true

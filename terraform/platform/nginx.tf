@@ -15,7 +15,6 @@ resource "helm_release" "nginx_ingress" {
       service = {
         type           = "LoadBalancer"
         loadBalancerIP = data.terraform_remote_state.infra.outputs.ingress_ip
-        annotations    = var.nginx_service_annotations
       }
     }
   })]
