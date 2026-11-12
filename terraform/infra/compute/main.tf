@@ -1,5 +1,5 @@
 resource "google_container_cluster" "main" {
-  name     = "dasmeta"
+  name     = local.cluster_name
   location = var.zone
 
   network    = var.network_id
@@ -15,7 +15,6 @@ resource "google_container_cluster" "main" {
     enable_private_endpoint = false
   }
 
-  # No default node pool; nodes come from google_container_node_pool.spot
   initial_node_count  = 0
   deletion_protection = false
 }
@@ -24,13 +23,13 @@ resource "google_container_node_pool" "spot" {
   name       = "spot-pool"
   cluster    = google_container_cluster.main.name
   location   = var.zone
-  node_count = 2
+  node_count = var.node_count
 
   node_config {
-    spot         = true
-    machine_type = "e2-medium"
-    disk_size_gb = 30
-    disk_type    = "pd-standard"
+    spot         = var.is_spot
+    machine_type = var.machine_type
+    disk_size_gb = var.disk_size_gb
+    disk_type    = var.disk_type
     oauth_scopes = ["https://www.googleapis.com/auth/cloud-platform"]
   }
 }
